@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>
+        {% block title %}
+            Сайт временно недоступен
+        {% endblock %}
+    </title>
+</head>
+<body style="
+    background-image: url('/static/images/main_logo.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    ">
+
+<div class="container_main_page">
+    <ul class="nav nav-pills justify-content-end align-items-end">
+        <li class="nav-item"><a href="/main/" class="nav-link">Главная</a></li>
+        <li class="nav-item"><a href="/clothes/" class="nav-link">Одежда</a></li>
+        <li class="nav-item"><a href="/footwear/" class="nav-link">Обувь</a></li>
+        <li class="nav-item"><a href="/logout/" class="nav-link">{{ username }}(Выйти)</a></li>
+    </ul>
+
+    {% block content %}
+        Страница находиться в процессе заполнения...
+    {% endblock %}
+
+    <div class="fixed-bottom modal-footer">
+        <p style="font-size: 12px;">Сайт разработан DJC. По вопросам сотрудничества: <a href="https://github.com/DjonyCooper">DjonyCooper</a></p>
+    </div>
+</div>
+</body>
+</html>

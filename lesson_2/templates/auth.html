@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>{{ title }}</title>
+</head>
+<body style="
+    background-image: url('/static/images/main_logo.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    ">
+
+    <div class="row">
+        <div class="mx-auto col-10 col-md-8 col-lg-6">
+          <!-- Form -->
+          <form class="form-example" action="/auth" method="post">
+            <h1>Авторизация</h1>
+            <p class="description">
+              Представьтесь, пожалуйста...
+            </p>
+            <!-- Input fields -->
+            <div class="form-group">
+              <label for="username">Как мы можем к Вам обращаться?</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="username"
+                placeholder="Ваше имя..."
+                name="username"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Адрес Вашей электронной почты?</label>
+              <input
+                type="email"
+                class="form-control password"
+                id="email"
+                placeholder="Email..."
+                name="email"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary btn-customized mt-4">
+              За покупками!
+            </button>
+          </form>
+        </div>
+      </div>
+
+<div class="fixed-bottom modal-footer">
+        <p style="font-size: 12px;">Сайт разработан DJC. По вопросам сотрудничества: <a href="https://github.com/DjonyCooper">DjonyCooper</a></p>
+</div>
+
