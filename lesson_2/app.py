@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.get('/')
 def not_auth():
     context = {'title': 'Авторизация'}
-    return render_template('sing_in.html', **context)
+    return render_template('auth.html', **context)
 @app.post('/auth')
 def auth_post():
     name = request.form.get('username')
@@ -55,7 +55,7 @@ def footwear_page():
 @app.route('/logout/')
 def logout():
     context = {'title': 'Авторизация'}
-    response = make_response(render_template('sing_in.html', **context))
+    response = make_response(render_template('auth.html', **context))
     response.set_cookie(key='name', expires=0)
     response.set_cookie(key='email', expires=0)
     return response
