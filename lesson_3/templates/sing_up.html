@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>{{ title }}</title>
+</head>
+<body style="
+    background-image: url('/static/images/main_logo.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    ">
+
+    <div class="row">
+        <div class="mx-auto col-10 col-md-8 col-lg-6">
+          <!-- Form -->
+          <form class="form-example" action="/registration_page" method="post">
+            <br>
+            <a style="font-size: 16px; color: gray;" href="http://127.0.0.1:5000/">АВТОРИЗАЦИЯ</a>&nbsp;&nbsp;&nbsp;<a style="font-size: 16px; color: #008B8B;" href="http://127.0.0.1:5000/registration_page/">РЕГИСТРАЦИЯ</a>
+            <br>
+            <br>
+            <br>
+            <h1>Регистрация</h1>
+            <p class="description">
+              Заполните все поля и нажмите кнопку "Зарегистрировать"...
+            </p>
+            <!-- Input fields -->
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control username"
+                id="firstName"
+                placeholder="Ваше имя..?"
+                name="firstName"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control username"
+                id="lastName"
+                placeholder="Ваша фамилия..?"
+                name="lastName"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control username"
+                id="password"
+                placeholder="Придумайте пароль..."
+                name="password"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control username"
+                id="password_check"
+                placeholder="Повторите пароль..."
+                name="password_check"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-control password"
+                id="email"
+                placeholder="Адрес электронной почты"
+                name="email"
+              />
+            </div>
+
+            <button type="registration" class="btn btn-primary btn-customized mt-4">
+              Зарегистрировать
+            </button>
+          </form>
+        </div>
+      </div>
+
+<div class="fixed-bottom modal-footer">
+        <p style="font-size: 12px;">Сайт разработан DJC. По вопросам сотрудничества: <a href="https://github.com/DjonyCooper">DjonyCooper</a></p>
+</div>
+

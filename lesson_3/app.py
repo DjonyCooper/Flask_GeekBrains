@@ -1,13 +1,28 @@
-from flask import Flask, request, redirect, url_for, make_response, Response
+import requests
+from flask import Flask, request, redirect, url_for, make_response
 from flask import render_template
+from models import db, User
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+db.init_app(app)
 
+@app.cli.command("init-db")
+def init_db():
+    db.create_all()
+    print('OK')
+@app.post('/registry/')
+def reg_user():
+    name = request.json['name']
+    email = request.json['email']
+    user = User(username=name, email=email)
+    db.session.add(user)
+    db.session.commit()
 @app.get('/')
 def not_auth():
     context = {'title': 'Авторизация'}
     return render_template('sing_in.html', **context)
-@app.post('/auth')
+@app.post('/auth/')
 def auth_post():
     name = request.form.get('username')
     email = request.form.get('email')
@@ -18,6 +33,7 @@ def auth_post():
         response = make_response(render_template('main.html', **context))
         response.set_cookie(key='name', value=name)
         response.set_cookie(key='email', value=email)
+        requests.post('http://127.0.0.1:5000/registry', json={'name': name, 'email': email})
         return response
     else:
         if name_cookie is not None and email_cookie is not None:
@@ -25,6 +41,12 @@ def auth_post():
             response = make_response(render_template('main.html', **context))
             return response
         return render_template('sing_in.html')
+
+@app.route('/registration_page/')
+def registration_page():
+    context = {'title': 'Регистрация'}
+    return render_template('sing_up.html', **context)
+
 @app.route('/main/')
 def main_page():
     name = request.cookies.get('name')
