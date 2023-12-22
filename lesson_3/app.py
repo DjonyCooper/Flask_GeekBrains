@@ -2,6 +2,7 @@ import requests
 from flask import Flask, request, redirect, url_for, make_response
 from flask import render_template
 from models import db, User
+from generate_hash import generate_pass_to_hash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
@@ -11,17 +12,58 @@ db.init_app(app)
 def init_db():
     db.create_all()
     print('OK')
+
+@app.get('/registry/')
+def registration_page():
+    context = {'title': 'Регистрация', 'error': 'Заполните все поля и нажмите кнопку: Зарегистрировать'}
+    return render_template('sing_up.html', **context)
+
+
 @app.post('/registry/')
 def reg_user():
-    name = request.json['name']
-    email = request.json['email']
-    user = User(username=name, email=email)
-    db.session.add(user)
-    db.session.commit()
+    first_name = request.form.get('firstName')
+    last_name = request.form.get('lastName')
+    secret = generate_pass_to_hash(first_name, request.form.get('secret'))
+    secret_check = generate_pass_to_hash(first_name, request.form.get('secret_check'))
+    email = request.form.get('email')
+    all_info = [first_name, last_name, secret, secret_check, email]
+    try:
+        first_name = int(first_name)
+        last_name = int(last_name)
+        context = {'title': 'Регистрация', 'error': 'Имя и(или) Фамилия не могут содержать цифр!'}
+        response = make_response(render_template('sing_up.html', **context))
+        return response
+    except:
+        if '' in all_info:
+            context = {'title': 'Регистрация', 'error': 'Необходимо заполнить все поля!'}
+            response = make_response(render_template('sing_up.html', **context))
+            return response
+        elif secret != secret_check:
+            context = {'title': 'Регистрация', 'error': 'Введенные пароли не совпадают!'}
+            response = make_response(render_template('sing_up.html', **context))
+            return response
+        else:
+            check_user = User.query.filter_by(email=email).all()
+            if check_user:
+                context = {'title': 'Регистрация', 'error': 'Пользователь с таким Email уже существует!'}
+                response = make_response(render_template('sing_up.html', **context))
+                return response
+            else:
+                user = User(first_name=first_name,
+                            last_name=last_name,
+                            pass_hash=secret,
+                            email=email)
+                db.session.add(user)
+                db.session.commit()
+                context = {'title': 'Регистрация', 'error': 'Вы успешно зарегистрированы!'}
+                response = make_response(render_template('sing_up.html', **context))
+                return response
+
 @app.get('/')
 def not_auth():
     context = {'title': 'Авторизация'}
     return render_template('sing_in.html', **context)
+
 @app.post('/auth/')
 def auth_post():
     name = request.form.get('username')
@@ -33,7 +75,6 @@ def auth_post():
         response = make_response(render_template('main.html', **context))
         response.set_cookie(key='name', value=name)
         response.set_cookie(key='email', value=email)
-        requests.post('http://127.0.0.1:5000/registry', json={'name': name, 'email': email})
         return response
     else:
         if name_cookie is not None and email_cookie is not None:
@@ -41,11 +82,6 @@ def auth_post():
             response = make_response(render_template('main.html', **context))
             return response
         return render_template('sing_in.html')
-
-@app.route('/registration_page/')
-def registration_page():
-    context = {'title': 'Регистрация'}
-    return render_template('sing_up.html', **context)
 
 @app.route('/main/')
 def main_page():
