@@ -1,4 +1,4 @@
-# Домашние работы по Unit-тесты (реализация на языке Python) площадка GeekBrains
+# Домашние работы по фреймворкам Flask и FastAPI (реализация на языке Python) площадка GeekBrains
 
 <summary>Цели на репозиторий:</summary>
 <p>
