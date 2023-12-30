@@ -37,7 +37,7 @@ def post_task(name: str, status: str, description: str | None = None):
         con.close()
         return {'result': True, 'more_details': {'info': 'create new row in db'}}
     except:
-        return {'result': False, 'more_details': {'info': 'unknown error in lesson_5/function/task.py/post_task func'}}
+        return {'result': False, 'more_details': {'info': 'unknown error in lesson_5/function/product.py/post_task func'}}
 
 
 def put_task(id: int, name: str, status: str, description: str | None = None):
@@ -53,7 +53,7 @@ def put_task(id: int, name: str, status: str, description: str | None = None):
         con.close()
         return {'result': True, 'more_details': {'info': 'update row in db'}}
     except:
-        return {'result': False, 'more_details': {'info': 'unknown error in lesson_5/function/task.py/put_task func'}}
+        return {'result': False, 'more_details': {'info': 'unknown error in lesson_5/function/product.py/put_task func'}}
 
 
 def del_task(id: int):
